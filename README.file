@@ -1,0 +1,237 @@
+# Contact Management System
+
+## Project Setup
+1. Clone the repository.
+2. Install dependencies: `npm install`
+3. Configure environment variables in `.env` file.
+
+## Running the Backend Server
+1. Start the server: `npm start`
+
+## Database Schema
+![ER Diagram](path/to/your/ER-diagram.png)
+
+## API Documentation
+- Link to Swagger documentation or provide Post
+
+Authentication
+Register a New User
+Endpoint: POST /register
+
+Description: Registers a new user.
+
+Request Body:
+
+json
+
+Copy
+{
+    "email": "user@example.com",
+    "password": "password123"
+}
+
+**Response**:
+- `201 Created` on success
+- `400 Bad Request` if validation fails
+
+**Example**:
+```bash
+    curl -X POST http://your-deployment-url/api/register -H "Content-Type: application/json" -d '{"email":"user@example.com", "password":"password123"}'
+
+Login
+Endpoint: POST /login
+
+Description: Logs in a user and returns a JWT token.
+
+Request Body:
+
+json
+
+Copy
+{
+    "email": "user@example.com",
+    "password": "password123"
+}
+
+**Response**:
+- `200 OK` with JWT token
+- `401 Unauthorized` if credentials are incorrect
+
+**Example**:
+```bash
+curl -X POST http://your-deployment-url/api/login -H "Content-Type: application/json" -d '{"email":"user@example.com", "password":"password123"}'
+Contact Management
+Add a New Contact
+Endpoint: POST /contacts
+
+Description: Adds a new contact.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Request Body:
+
+json
+
+Copy
+{
+    "name": "John Doe",
+    "email": "johndoe@example.com",
+    "phone": "1234567890",
+    "address": "123 Main St",
+    "timezone": "UTC"
+}
+
+**Response**:
+- `201 Created` on success
+- `400 Bad Request` if validation fails
+
+**Example**:
+```bash
+curl -X POST http://your-deployment-url/api/contacts -H "Authorization: Bearer <JWT_TOKEN>" -H "Content-Type: application/json" -d '{"name":"John Doe", "email":"johndoe@example.com", "phone":"1234567890", "address":"123 Main St", "timezone":"UTC"}'
+Retrieve Contacts
+Endpoint: GET /contacts
+
+Description: Retrieves a list of contacts with optional filtering and sorting.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Request Query Parameters:
+
+name: Filter by contact name (optional)
+
+email: Filter by contact email (optional)
+
+timezone: Filter by timezone (optional)
+
+startDate: Filter by creation date range start (optional)
+
+endDate: Filter by creation date range end (optional)
+
+Response:
+
+200 OK with contact data
+
+Example:
+
+bash
+
+Copy
+curl -X GET http://your-deployment-url/api/contacts -H "Authorization: Bearer <JWT_TOKEN>"
+Update a Contact
+Endpoint: PUT /contacts/:id
+
+Description: Updates contact details.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Request Body:
+
+json
+
+Copy
+{
+    "name": "Jane Doe",
+    "email": "janedoe@example.com",
+    "phone": "0987654321",
+    "address": "456 Elm St",
+    "timezone": "PST"
+}
+
+**Response**:
+- `200 OK` on success
+- `400 Bad Request` if validation fails
+- `404 Not Found` if contact does not exist
+
+**Example**:
+```bash
+curl -X PUT http://your-deployment-url/api/contacts/1 -H "Authorization: Bearer <JWT_TOKEN>" -H "Content-Type: application/json" -d '{"name":"Jane Doe", "email":"janedoe@example.com", "phone":"0987654321", "address":"456 Elm St", "timezone":"PST"}'
+Delete a Contact (Soft Delete)
+Endpoint: DELETE /contacts/:id
+
+Description: Soft deletes a contact.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Response:
+
+200 OK on success
+
+404 Not Found if contact does not exist
+
+Example:
+
+bash
+
+Copy
+curl -X DELETE http://your-deployment-url/api/contacts/1 -H "Authorization: Bearer <JWT_TOKEN>"
+Upload Contacts via CSV
+Endpoint: POST /contacts/upload/csv
+
+Description: Uploads contacts in bulk via CSV file.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Request Form Data:
+
+file: CSV file
+
+Response:
+
+200 OK on success
+
+400 Bad Request if validation fails
+
+Example:
+
+bash
+
+Copy
+curl -X POST http://your-deployment-url/api/contacts/upload/csv -H "Authorization: Bearer <JWT_TOKEN>" -F "file=@contacts.csv"
+Download Contacts as CSV
+Endpoint: GET /contacts/download/csv
+
+Description: Downloads all contacts as a CSV file.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Response:
+
+200 OK with CSV file
+
+Example:
+
+bash
+
+Copy
+curl -X GET http://your-deployment-url/api/contacts/download/csv -H "Authorization: Bearer <JWT_TOKEN>" -o contacts.csv
+Download Contacts as Excel
+Endpoint: GET /contacts/download/excel
+
+Description: Downloads all contacts as an Excel file.
+
+Request Headers:
+
+Authorization: Bearer <JWT_TOKEN>
+
+Response:
+
+200 OK with Excel file
+
+Example:
+
+bash
+
+Copy
+curl -X GET http://your-deployment-url/api/contacts/download/excel -H "Autho
